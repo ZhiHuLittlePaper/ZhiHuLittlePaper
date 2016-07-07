@@ -1,6 +1,7 @@
 package io.github.zhihulittlepaper.util;
 
 import io.github.zhihulittlepaper.entity.News;
+import io.github.zhihulittlepaper.entity.NewsDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +14,11 @@ import android.util.Log;
 
 public class JSONUtils {
 
-	public static List<News> parseNewsList(String response) {
+	public static List<News> parseNewsList(String data) {
 		List<News> newsList = new ArrayList<News>();
 		try {
-			JSONObject obj = new JSONObject(response);
-			String date = parseDate(obj.getString("date"));
+			JSONObject obj = new JSONObject(data);
+			String date = obj.getString("date");
 			JSONArray arr = obj.getJSONArray("stories");
 			int length = arr.length();
 			for(int i = 0; i< length; i++) {
@@ -51,17 +52,19 @@ public class JSONUtils {
 		return url;
 	}
 
-	private static String parseDate(String date) {
-		StringBuilder sb = new StringBuilder();
-		if(date != null && date.length() == 8) {
-			sb.append(date.substring(0, 4));
-			sb.append("Äê");
-			sb.append(date.substring(4, 6));
-			sb.append("ÔÂ");
-			sb.append(date.substring(6, 8));
-			sb.append("ÈÕ");
+	public static NewsDetail parseNewsDetail(String data) {
+		NewsDetail detail = new NewsDetail();
+		try {
+			JSONObject obj = new JSONObject(data);
+			detail.setBody(obj.getString("body"));
+			detail.setImageSource(obj.getString("image_source"));
+			detail.setImage(obj.getString("image"));
+			return detail;
+		} 
+		catch (JSONException e) {
+			e.printStackTrace();
 		}
-		return sb.toString();
+		return null;
 	}
 
 }

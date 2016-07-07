@@ -9,19 +9,17 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import io.github.zhihulittlepaper.R;
-import io.github.zhihulittlepaper.R.layout;
-import io.github.zhihulittlepaper.R.menu;
 import io.github.zhihulittlepaper.adapter.NewsAdapter;
 import io.github.zhihulittlepaper.entity.News;
 import io.github.zhihulittlepaper.presenter.INewsListPresenter;
 import io.github.zhihulittlepaper.presenter.NewsListPresenter;
 import io.github.zhihulittlepaper.view.INewsListView;
+import io.github.zhihulittlepaper.view.PullListView;
 
 public class NewsListActivity extends Activity implements INewsListView  {
 
-	private ListView lvNews;
+	private PullListView lvNews;
 	private NewsAdapter adapter;
 	private List<News> newsList;
 	private INewsListPresenter presenter;
@@ -31,7 +29,23 @@ public class NewsListActivity extends Activity implements INewsListView  {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_news_list);
 		
-		lvNews = (ListView)findViewById(R.id.lv_news);
+		lvNews = (PullListView)findViewById(R.id.lv_news);
+		
+		lvNews.setDataRefresher(new PullListView.DataRefresher() {
+			@Override
+			public void refresh() {
+				presenter.loadNewsList();
+				newsList = null;
+			}
+		});
+		
+		lvNews.setMoreDataLoader(new PullListView.MoreDataLoader() {
+			@Override
+			public void loadMore() {
+				presenter.loadMoreNewsList(adapter.getItem(adapter.getCount() - 1).getDate());
+			}
+		});
+		
 		presenter = new NewsListPresenter(this);
 		presenter.loadNewsList();
 		setListeners();
@@ -52,7 +66,6 @@ public class NewsListActivity extends Activity implements INewsListView  {
 			lvNews.setAdapter(adapter);
 		}
 		else {
-			this.newsList.clear();
 			this.newsList.addAll(news);
 			if(adapter == null) {
 				adapter = new NewsAdapter(this, news, presenter);
@@ -68,7 +81,7 @@ public class NewsListActivity extends Activity implements INewsListView  {
 		lvNews.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				News selectedNews = adapter.getItem(position);
+				News selectedNews = adapter.getItem(position - 1);
 				startNewsDetailActivity(selectedNews);
 			}
 		});

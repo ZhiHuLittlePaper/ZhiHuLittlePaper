@@ -42,7 +42,7 @@ public class NewsAdapter extends BaseAdapter<News> {
 		}
 		
 		if(position == 0 || !news.getDate().equals(getItem(position - 1).getDate())) {
-			holder.tvDate.setText(news.getDate());
+			holder.tvDate.setText(parseDate(news.getDate()));
 			holder.tvDate.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -54,6 +54,19 @@ public class NewsAdapter extends BaseAdapter<News> {
 		presenter.loadNewsImage(holder.ivImage, news);
 
 		return convertView;
+	}
+	
+	private static String parseDate(String date) {
+		StringBuilder sb = new StringBuilder();
+		if(date != null && date.length() == 8) {
+			sb.append(date.substring(0, 4));
+			sb.append("Äê");
+			sb.append(date.substring(4, 6));
+			sb.append("ÔÂ");
+			sb.append(date.substring(6, 8));
+			sb.append("ÈÕ");
+		}
+		return sb.toString();
 	}
 
 	class ViewHolder {

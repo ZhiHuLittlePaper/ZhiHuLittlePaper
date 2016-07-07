@@ -9,27 +9,23 @@
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/main_color"
-         >
-        
+        android:background="@color/main_color" >
+
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="今日热闻"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-             />
-        
+            android:text="今日热闻"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
     </RelativeLayout>
-    
-    <ListView
+
+    <io.github.zhihulittlepaper.view.PullListView
         android:id="@+id/lv_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rl_title"
-         ></ListView>
+        android:layout_below="@+id/rl_title" />
 
 </RelativeLayout>

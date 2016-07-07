@@ -46,7 +46,7 @@ public class NewsListPresenter implements INewsListPresenter {
 
 	@Override
 	public void loadNewsImage(final ImageView imageView, News news) {
-		model.loadNewsImage(news, new IModel.OnImageLoadedListener() {
+		model.loadNewsImage(imageView, news, new IModel.OnImageLoadedListener() {
 			@Override
 			public void onImageLoaded(Bitmap response) {
 				imageView.setImageBitmap(response);
@@ -55,6 +55,23 @@ public class NewsListPresenter implements INewsListPresenter {
 			public void onImageLoadFailed(String error) {
 			}
 		});
+	}
+
+	@Override
+	public void loadMoreNewsList(String date) {
+		OnDataLoadedListener listener = new OnDataLoadedListener() {
+			@Override
+			public void onDataLoaded(String response) {
+				List<News> newsList = JSONUtils.parseNewsList(response);
+				view.setData(newsList);
+			}
+			
+			@Override
+			public void onDataLoadFailed(String error) {
+			}
+		};
+		
+		model.loadMoreNewsList(date, listener);
 	}
 	
 	

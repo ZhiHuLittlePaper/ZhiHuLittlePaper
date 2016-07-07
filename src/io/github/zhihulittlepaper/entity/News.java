@@ -2,12 +2,15 @@ package io.github.zhihulittlepaper.entity;
 
 import java.io.Serializable;
 
+import android.graphics.Bitmap;
+
 public class News implements Serializable {
 	private String id;
 	private String title;
 	private String image;
 	private String date;
-	private String body;
+	private Bitmap littlebm;
+	private NewsDetail detail;
 	
 	public News() {
 	}
@@ -41,11 +44,17 @@ public class News implements Serializable {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getBody() {
-		return body;
+	public Bitmap getLittlebm() {
+		return littlebm;
 	}
-	public void setBody(String body) {
-		this.body = body;
+	public void setLittlebm(Bitmap littlebm) {
+		this.littlebm = littlebm;
+	}
+	public NewsDetail getDetail() {
+		return detail;
+	}
+	public void setDetail(NewsDetail detail) {
+		this.detail = detail;
 	}
 	
 	

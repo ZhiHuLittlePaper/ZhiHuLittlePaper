@@ -37,5 +37,10 @@ public class MainActivity extends Activity implements IStartView{
 		startActivity(intent);
 		finish();
 	}
+	
+	@Override
+	public  ImageView getImageView() {
+		return ivStart;
+	}
 
 }

@@ -6,4 +6,5 @@ import android.widget.ImageView;
 public interface INewsListPresenter extends IPresenter {
 	void loadNewsList();
 	void loadNewsImage(ImageView imageView, News news);
+	void loadMoreNewsList(String date);
 }
